@@ -44,12 +44,12 @@ public class AvlTreeTest {
   
   private boolean checkOrderingOfTree(AvlTree.AvlNode<Integer> current) {
     if(current.left != null) {
-      if(current.left.element.compareTo(current.element) > 0)
+      if(current.left.key.compareTo(current.key) > 0)
         return false;
       else
         return checkOrderingOfTree(current.left);
     } else  if(current.right != null) {
-      if(current.right.element.compareTo(current.element) < 0)
+      if(current.right.key.compareTo(current.key) < 0)
         return false;
       else
         return checkOrderingOfTree(current.right);
@@ -122,3 +122,4 @@ public class AvlTreeTest {
     assertFalse(tree.contains(83));
   }
 }
+
