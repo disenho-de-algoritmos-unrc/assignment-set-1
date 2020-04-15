@@ -239,21 +239,6 @@ public class CaesarCrackerTest {
         int[] key = {1, 100, 101};
         cracker.setEncryptedMessage(CaesarCracker.encode("hola que tal", key));
         cracker.setMessageWord("hola");
-        cracker.setPasswordLength(3);
-        boolean isDecrypted = cracker.bruteForceDecrypt();
-        assertTrue("message decrypted", isDecrypted);
-        assertEquals("key found", Arrays.toString(cracker.foundKey()), Arrays.toString(key));
-    }
-
-    /**
-     * Tests bruteForceDecrypt on larger decryptable message.
-     */
-    @Test
-    public final void testComplexBruteForce() {
-        CaesarCracker cracker = new CaesarCracker();
-        int[] key = {1, 100, 101};
-        cracker.setEncryptedMessage(CaesarCracker.encode("hola que tal", key));
-        cracker.setMessageWord("hola");
         cracker.setPasswordLength(1);
         boolean isDecrypted = cracker.bruteForceDecrypt();
         assertFalse("message decrypted", isDecrypted);
