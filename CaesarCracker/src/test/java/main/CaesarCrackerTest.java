@@ -246,6 +246,27 @@ public class CaesarCrackerTest {
     }
 
     /**
+     * Tests bruteForceDecrypt on larger decryptable message.
+     */
+    @Test
+    public final void testComplexBruteForce() {
+        CaesarCracker cracker = new CaesarCracker();
+        int[] key = {1, 100, 101};
+        cracker.setEncryptedMessage(CaesarCracker.encode("hola que tal", key));
+        cracker.setMessageWord("hola");
+        cracker.setPasswordLength(1);
+        boolean isDecrypted = cracker.bruteForceDecrypt();
+        assertFalse("message decrypted", isDecrypted);
+        cracker.setPasswordLength(2);
+        isDecrypted = cracker.bruteForceDecrypt();
+        assertFalse("message decrypted", isDecrypted);
+        cracker.setPasswordLength(3);
+        isDecrypted = cracker.bruteForceDecrypt();
+        assertTrue("message decrypted", isDecrypted);
+        assertTrue("word found", CaesarCracker.decode(cracker.getEncryptedMessage(), cracker.foundKey()).contains(cracker.getMessageWord()));
+    }
+
+    /**
      * Tests bruteForceDecrypt on larger decryptable message. Key is correctly found.
      */
     @Test
@@ -254,10 +275,16 @@ public class CaesarCrackerTest {
         int[] key = {20, 100, 101};
         cracker.setEncryptedMessage(CaesarCracker.encode("hola que tal como andas", key));
         cracker.setMessageWord("hola");
-        cracker.setPasswordLength(3);
+        cracker.setPasswordLength(1);
         boolean isDecrypted = cracker.bruteForceDecrypt();
+        assertFalse("message decrypted", isDecrypted);
+        cracker.setPasswordLength(2);
+        isDecrypted = cracker.bruteForceDecrypt();
+        assertFalse("message decrypted", isDecrypted);
+        cracker.setPasswordLength(3);
+        isDecrypted = cracker.bruteForceDecrypt();
         assertTrue("message decrypted", isDecrypted);
-        assertEquals("encoding key is correct", Arrays.toString(key), Arrays.toString(cracker.foundKey()));
+        assertTrue("word found", CaesarCracker.decode(cracker.getEncryptedMessage(), cracker.foundKey()).contains(cracker.getMessageWord()));
     }
 
     /**
@@ -269,10 +296,19 @@ public class CaesarCrackerTest {
         int[] key = {3, 23, 126, 103};
         cracker.setEncryptedMessage(CaesarCracker.encode("hola que tal como andas", key));
         cracker.setMessageWord("hola");
-        cracker.setPasswordLength(4);
+        cracker.setPasswordLength(1);
         boolean isDecrypted = cracker.bruteForceDecrypt();
+        assertFalse("message decrypted", isDecrypted);
+        cracker.setPasswordLength(2);
+        isDecrypted = cracker.bruteForceDecrypt();
+        assertFalse("message decrypted", isDecrypted);
+        cracker.setPasswordLength(3);
+        isDecrypted = cracker.bruteForceDecrypt();
+        assertFalse("message decrypted", isDecrypted);
+        cracker.setPasswordLength(4);
+        isDecrypted = cracker.bruteForceDecrypt();
         assertTrue("message decrypted", isDecrypted);
-        assertEquals("encoding key is correct", Arrays.toString(key), Arrays.toString(cracker.foundKey()));
+        assertTrue("word found", CaesarCracker.decode(cracker.getEncryptedMessage(), cracker.foundKey()).contains(cracker.getMessageWord()));
     }
 
 }
